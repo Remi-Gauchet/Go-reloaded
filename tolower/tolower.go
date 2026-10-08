@@ -1,10 +1,14 @@
 package tolower
 
+import (
+	"unicode"
+)
+
 func ToLower(s string) string {
 	serierunes := []rune(s)
 	for i, r := range serierunes {
-		if r >= 'A' && r <= 'Z' {
-			serierunes[i] = r + ('a' - 'A')
+		if unicode.IsUpper(r) {
+			serierunes[i] = unicode.ToLower(r)
 		}
 	}
 	return string(serierunes)
