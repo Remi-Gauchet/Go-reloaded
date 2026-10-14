@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Remi-Gauchet/Go-reloaded.git/tolower"
+	"github.com/Remi-Gauchet/Go-reloaded.git/archives/tolower"
 )
 
 func main() {

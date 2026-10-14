@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 	"unicode"
@@ -14,7 +13,6 @@ func transformer(texte string) string {
 	for i, ligne := range lignes {
 		ligne = strings.TrimRight(ligne, "\r")
 		mots := strings.Fields(ligne)
-		fmt.Printf("%q\n", mots)
 		mots = appliquerMarqueurs(mots)
 		lignes[i] = strings.Join(mots, " ")
 	}
@@ -38,7 +36,6 @@ func appliquerMarqueurs(mots []string) []string {
 
 	for i := 0; i < len(mots); i++ {
 		mot := mots[i]
-
 		if mot == "(up)" || mot == "(low)" || mot == "(cap)" || mot == "(hex)" || mot == "(bin)" {
 			if len(resultat) == 0 {
 				continue
@@ -70,19 +67,49 @@ func appliquerMarqueurs(mots []string) []string {
 				resultat[dernier] = texte
 
 			}
+			// Section marqueur suivie d'un n
 		} else if strings.HasPrefix(mot, "(up,") || strings.HasPrefix(mot, "(low,") || strings.HasPrefix(mot, "(cap,") {
-			stringMarqueur := strings.TrimSuffix(mots[i+1], ")")
-			nMarqueur, err := strconv.Atoi(stringMarqueur)
-			if err != nil {
+
+			if i+1 >= len(mots) {
+				continue
 			}
-			for j := len(resultat) - nMarqueur; j < len(resultat); j++ {
-				resultat[j] = strings.ToUpper(resultat[j])
+			// je lui coupe la ) à la fin
+			stringMarqueur := strings.TrimSuffix(mots[i+1], ")")
+
+			// je convertit le string en int, que j'appelle nMarqueur
+			nMarqueur, err := strconv.Atoi(stringMarqueur)
+			i++
+
+			// Pour montrer que le marqueur est incorrect, je le bazarde dans le texte tel quel
+			if err != nil {
+				resultat = append(resultat, mot)
 			}
 
+			// si le chiffre est plus gros que le texte, j'applique le marqueur sans planter
+			if nMarqueur > len(resultat) {
+				nMarqueur = len(resultat)
+			}
+
+			// je fais ma sauce en fonction du préfixe
+			switch mot {
+			case "(up,":
+
+				// mon j parcourt resultat, il reviendra en arrière en fonction de n et ravancera jusqu'à là où on s'était arrêtés
+				for j := len(resultat) - nMarqueur; j < len(resultat); j++ {
+					resultat[j] = strings.ToUpper(resultat[j])
+				}
+			case "(low,":
+				for j := len(resultat) - nMarqueur; j < len(resultat); j++ {
+					resultat[j] = strings.ToLower(resultat[j])
+				}
+			case "(cap,":
+				for j := len(resultat) - nMarqueur; j < len(resultat); j++ {
+					resultat[j] = capitaliser(resultat[j])
+				}
+			}
 		} else {
 			resultat = append(resultat, mot)
 		}
-
 	}
 	return resultat
 }
