@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"unicode"
@@ -13,6 +14,7 @@ func transformer(texte string) string {
 	for i, ligne := range lignes {
 		ligne = strings.TrimRight(ligne, "\r")
 		mots := strings.Fields(ligne)
+		fmt.Printf("%q\n", mots)
 		mots = appliquerMarqueurs(mots)
 		lignes[i] = strings.Join(mots, " ")
 	}
@@ -33,11 +35,15 @@ func capitaliser(mot string) string {
 // appliquerMarqueurs détecte dans le string certains "marqueurs" prédéfinis et modifie le string en fonction d'eux
 func appliquerMarqueurs(mots []string) []string {
 	var resultat []string
-	for _, mot := range mots {
+
+	for i := 0; i < len(mots); i++ {
+		mot := mots[i]
+
 		if mot == "(up)" || mot == "(low)" || mot == "(cap)" || mot == "(hex)" || mot == "(bin)" {
 			if len(resultat) == 0 {
 				continue
 			}
+
 			dernier := len(resultat) - 1
 			// puis on choisit la transformation selon le marqueur
 			switch mot {
@@ -64,9 +70,19 @@ func appliquerMarqueurs(mots []string) []string {
 				resultat[dernier] = texte
 
 			}
+		} else if strings.HasPrefix(mot, "(up,") || strings.HasPrefix(mot, "(low,") || strings.HasPrefix(mot, "(cap,") {
+			stringMarqueur := strings.TrimSuffix(mots[i+1], ")")
+			nMarqueur, err := strconv.Atoi(stringMarqueur)
+			if err != nil {
+			}
+			for j := len(resultat) - nMarqueur; j < len(resultat); j++ {
+				resultat[j] = strings.ToUpper(resultat[j])
+			}
+
 		} else {
 			resultat = append(resultat, mot)
 		}
+
 	}
 	return resultat
 }
