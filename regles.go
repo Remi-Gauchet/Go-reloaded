@@ -82,8 +82,9 @@ func appliquerMarqueurs(mots []string) []string {
 			i++
 
 			// Pour montrer que le marqueur est incorrect, je le bazarde dans le texte tel quel
-			if err != nil {
-				resultat = append(resultat, mot)
+			if err != nil || nMarqueur < 0 {
+				resultat = append(resultat, mot, mots[i])
+				continue
 			}
 
 			// si le chiffre est plus gros que le texte, j'applique le marqueur sans planter

@@ -9,7 +9,7 @@ Dans votre éditeur de code, donnez en argument le nom du fichier à modifier, s
 ## Exemple d'utilisation
 
 ```bash
-go run . entree.txt sortie .txt
+go run . entree.txt sortie.txt
 ```
 **entree.txt** est le nom du fichier texte à modifier  
 **sortie.txt** et le nom du fichier modifié
@@ -17,18 +17,20 @@ go run . entree.txt sortie .txt
 ## Règles d'utilisation
 |    Marqueur    |              Effet           |  Exemple   | Résultat |
 |----------------|------------------------------|------------|----------|
-|     `(up)`     |       tout en majuscule      | chat (up)  |   CHAT   |
-|     `(low)`    |       tout en minuscule      | CHAT (low) |   chat   |
-|     `(cap)`    | première lettre en majuscule | chat (cap) |   Chat   |
+|     `(up)`     | met le mot précédent en majuscule | chat (up)  |   CHAT   |
+|     `(low)`    | met le mort précédent en minuscule | CHAT (low) |   chat   |
+|     `(cap)`    | première lettre du mot précédent en majuscule | chat (cap) |   Chat   |
 |    `(up, 'n')` | 'up' appliqué aux 'n' mots précédents | le rat chat (up, 2) | le RAT CHAT |
 |   `(low, 'n')` | 'low' appliqué aux 'n' mots précédents | LE RAT CHAT (low, 2) | LE rat chat |
 | `(cap, 'n')`   | 'cap' appliqué aux 'n' mots précédents | le rat chat (cap, 2) | le Rat Chat |
+| `(bin)` | remplace le mot précédent par sa valeur en base 10 | 10 (bin) ans | 2 ans |
+| `(hex)`| remplace le mot précédent par sa valeur en base 10 | 1E (hex) fichiers | 30 fichiers |
 
 ## Les messages d'erreur
 Impossible de lire le fichier  
 Impossible d'écrire le fichier  
 Veuillez entrer le fichier d'entrée puis le fichier de sortie.  
-Veillez à ce que le nom du fichier d'entrée et de sortie soient différents.  
+Veuillez à ce que le nom du fichier d'entrée et de sortie soient différents.  
 
 
 ## Les tests
@@ -47,6 +49,8 @@ main.go lance le programme et appelle les autres fonctions
 ## Limites
 Votre fichier à modifier doit être sous le format .txt  
 Les marqueurs doivent impérativement être séparés d'un espace avant et après votre texte.  
+Un marqueur à l'entrée du texte est supprimé du texte, sans ne rien faire.  
+Les fautes de frappe dans les marqueurs ne sont pas corrigées.  
 
 ## Auteur
 Rémi GAUCHET
