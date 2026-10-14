@@ -14,6 +14,7 @@ func transformer(texte string) string {
 		ligne = strings.TrimRight(ligne, "\r")
 		mots := strings.Fields(ligne)
 		mots = appliquerMarqueurs(mots)
+		mots = corrigerArticle(mots)
 		lignes[i] = strings.Join(mots, " ")
 	}
 
@@ -112,4 +113,24 @@ func appliquerMarqueurs(mots []string) []string {
 		}
 	}
 	return resultat
+}
+
+func corrigerArticle(mots []string) []string {
+	var voyelle bool = false
+	for i := 0; i < len(mots)-1; i++ {
+		// je prend le mot suivant, je le met en minuscule, je le convertit en chaine de runes
+		runeMot := []rune(strings.ToLower(mots[i+1]))
+
+		if runeMot[0] == 'a' || runeMot[0] == 'e' || runeMot[0] == 'i' || runeMot[0] == 'o' || runeMot[0] == 'u' || runeMot[0] == 'h' {
+			voyelle = true
+		}
+		if mots[i] == "a" && voyelle == true {
+			mots[i] = "an"
+		}
+		if mots[i] == "A" && voyelle == true {
+			mots[i] = "An"
+		}
+		voyelle = false
+	}
+	return mots
 }
