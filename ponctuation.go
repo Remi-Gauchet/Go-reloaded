@@ -12,7 +12,7 @@ func estPonctuation(r rune) bool {
 func corrigerPonctuation(ligne string) string {
 	var sortie []rune
 	runeLigne := []rune(ligne)
-	for _, lettre := range runeLigne {
+	for i, lettre := range runeLigne {
 		if estPonctuation(lettre) == false {
 			sortie = append(sortie, lettre)
 		} else {
@@ -20,6 +20,20 @@ func corrigerPonctuation(ligne string) string {
 				sortie = sortie[:len(sortie)-1]
 			}
 			sortie = append(sortie, lettre)
+
+			// je vais appeler runeLigne[i+1] donc j'applique une protection pour pas planter si on est arrivé au bout
+			if i+1 >= len(runeLigne) {
+				return string(sortie)
+			}
+
+			// je regarde la rune suivante pour voir ce que je dois faire
+			if runeLigne[i+1] == ' ' {
+				continue
+			}
+			if estPonctuation(runeLigne[i+1]) == true {
+				continue
+			}
+			sortie = append(sortie, ' ')
 		}
 	}
 	return string(sortie)
