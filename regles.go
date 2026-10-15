@@ -17,6 +17,7 @@ func transformer(texte string) string {
 		mots = corrigerArticle(mots)
 		lignes[i] = strings.Join(mots, " ")
 		lignes[i] = corrigerPonctuation(lignes[i])
+		lignes[i] = corrigerApostrophes(lignes[i])
 	}
 
 	return strings.Join(lignes, "\n")

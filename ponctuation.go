@@ -8,7 +8,7 @@ func estPonctuation(r rune) bool {
 	return false
 }
 
-// corrigerPonctuation prend un string et lui applique les règles typographiques de ponctuation demandées dans l'énoncé
+// corrigerPonctuation prend le string, puis lui applique les règles typographiques de ponctuation, puis le renvoie ainsi modifié
 func corrigerPonctuation(ligne string) string {
 	var sortie []rune
 	runeLigne := []rune(ligne)
@@ -34,6 +34,37 @@ func corrigerPonctuation(ligne string) string {
 				continue
 			}
 			sortie = append(sortie, ' ')
+		}
+	}
+	return string(sortie)
+}
+
+// corrigerApostrophes reprend le string, cherche un apostrophe, et retire si besoin les espaces en trop d'une citation
+func corrigerApostrophes(ligne string) string {
+	var sortie []rune
+	var citation bool = false
+	runeLigne := []rune(ligne)
+	for _, lettre := range runeLigne {
+		// je détecte mon apostrophe
+		if lettre == '\'' {
+
+			//fin de citation
+			if citation == true {
+				for len(sortie) > 0 && sortie[len(sortie)-1] == ' ' {
+					sortie = sortie[:len(sortie)-1]
+				}
+				sortie = append(sortie, lettre)
+				citation = false
+
+			} else {
+				//début de citation
+				sortie = append(sortie, lettre)
+				citation = true
+			}
+		} else if lettre == ' ' && citation == true && len(sortie) > 0 && sortie[len(sortie)-1] == '\'' {
+			continue
+		} else {
+			sortie = append(sortie, lettre)
 		}
 	}
 	return string(sortie)
