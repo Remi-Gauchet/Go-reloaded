@@ -36,10 +36,14 @@ Veuillez entrer le fichier d'entrée puis le fichier de sortie.
 Veuillez à ce que le nom du fichier d'entrée et de sortie soient différents.  
 
 
-## Les tests
+## Test
 Lancez l'input suivant :  
-go run . test/ferre.txt sortie.txt  
-Le fichier sortie.txt doit avoir le même contenu que le fichier ferre.resultat.txt  
+
+```bash
+go run . test/leo.txt sortie.txt 
+```
+
+Le fichier sortie.txt doit avoir le même contenu que le fichier leo-attendu.txt  
 
 Vous pouvez reproduire le test avec un autre fichier en suivant le même schéma.  
 
