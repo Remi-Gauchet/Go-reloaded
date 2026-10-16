@@ -1,9 +1,21 @@
 package main
 
+import "unicode"
+
 // estPonctuation détecte la ponctuation à partir d'une rune
 func estPonctuation(r rune) bool {
 	if r == '.' || r == ',' || r == '!' || r == '?' || r == ':' || r == ';' {
 		return true
+	}
+	return false
+}
+
+// estApostropheDeMot nous permet de différencier les ' utilisés pour une citation des ' inclus dans la grammaire
+func estApostropheDeMot(runeLigne []rune, i int) bool {
+	if i > 0 && i < len(runeLigne)-1 {
+		if unicode.IsLetter(runeLigne[i-1]) == true && unicode.IsLetter(runeLigne[i+1]) == true {
+			return true
+		}
 	}
 	return false
 }
@@ -44,22 +56,32 @@ func corrigerApostrophes(ligne string) string {
 	var sortie []rune
 	var citation bool = false
 	runeLigne := []rune(ligne)
-	for _, lettre := range runeLigne {
+	for i, lettre := range runeLigne {
 		// je détecte mon apostrophe
 		if lettre == '\'' {
 
 			//fin de citation
 			if citation == true {
-				for len(sortie) > 0 && sortie[len(sortie)-1] == ' ' {
-					sortie = sortie[:len(sortie)-1]
-				}
-				sortie = append(sortie, lettre)
-				citation = false
+				if estApostropheDeMot(runeLigne, i) == false {
+					for len(sortie) > 0 && sortie[len(sortie)-1] == ' ' {
+						sortie = sortie[:len(sortie)-1]
+					}
+					sortie = append(sortie, lettre)
+					citation = false
 
-			} else {
+					//ce n'est pas la fin de la citation
+				} else {
+					sortie = append(sortie, lettre)
+				}
+
+			} else if estApostropheDeMot(runeLigne, i) == false {
 				//début de citation
 				sortie = append(sortie, lettre)
 				citation = true
+
+			} else {
+				// ce n'est pas une citation
+				sortie = append(sortie, lettre)
 			}
 		} else if lettre == ' ' && citation == true && len(sortie) > 0 && sortie[len(sortie)-1] == '\'' {
 			continue
