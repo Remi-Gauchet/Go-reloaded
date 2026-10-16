@@ -80,7 +80,7 @@ func corrigerApostrophes(ligne string) string {
 				citation = true
 
 			} else {
-				// ce n'est pas une citation
+				// c'est un apostrophe grammatical
 				sortie = append(sortie, lettre)
 			}
 		} else if lettre == ' ' && citation == true && len(sortie) > 0 && sortie[len(sortie)-1] == '\'' {
