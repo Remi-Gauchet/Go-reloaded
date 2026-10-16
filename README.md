@@ -3,8 +3,8 @@ Programme servant à appliquer à un texte des modifications d'ordre typographiq
 
 ## Installation
 Teléchargez le dossier.  
-Invite de commande à la racine du projet.  
-Dans votre éditeur de code, donnez en argument le nom du fichier à modifier, suivi du nom du fichier à créer.  
+Ouvrez l'invite de commande à la racine du projet.  
+Donnez en argument le nom du fichier à modifier, suivi du nom du fichier à créer.  
 
 
 ## Exemple d'utilisation
