@@ -49,10 +49,10 @@ Vous pouvez reproduire le test avec un autre fichier en suivant le même schéma
 
 
 ## Organisation du code
-fichiers.go lit le fichier donné, et en crée un nouveau  
-regles.go définit différentes règles et les applique au texte pour le modifier  
-ponctuation.go rajoute à regles.go des règles portant sur la ponctuation  
-main.go lance le programme, appelle les autres fonctions, ou affiche un message d'erreur  
+**fichiers.go** lit le fichier donné, et en crée un nouveau  
+**regles.go** définit comment utiliser les marqueurs, appelle ponctuation.go, et applique toutes les règles au texte pour le modifier  
+**ponctuation.go** définit comment modifier le positionnement de la ponctuation du texte. Il gère aussi les apostrophes, et comprend quand un apostrophe est grammatical, ou s'il est utilisé en citation.  
+**main.go** lance le programme, appelle les autres fonctions, ou affiche un message d'erreur  
 
 
 ## Limites

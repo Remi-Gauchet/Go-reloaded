@@ -12,6 +12,7 @@ func transformer(texte string) string {
 
 	for i, ligne := range lignes {
 		ligne = strings.TrimRight(ligne, "\r")
+		ligne = corrigerApostrophes(ligne)
 		mots := strings.Fields(ligne)
 		mots = appliquerMarqueurs(mots)
 		mots = corrigerArticle(mots)
